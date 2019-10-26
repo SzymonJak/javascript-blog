@@ -31,7 +31,8 @@
 
     const optArticleSelector = '.post',
         optTitleSelector = '.post-title',
-        optTitleListSelector = '.titles';
+        optTitleListSelector = '.titles',
+        optArticleTagsSelector = '.post-tags .list';
 
     const generateTitleLinks = function () {
         const titleList = document.querySelector(optTitleListSelector);
@@ -66,5 +67,36 @@
     };
 
     generateTitleLinks();
+
+    const generateTags = function() {
+        /* find all articles */
+        const articles = document.querySelectorAll(optArticleSelector);
+        /* START LOOP: for every article: */
+        for (let article of articles) {
+        /* find tags wrapper */
+            const tagsList = article.querySelector(optArticleTagsSelector);
+            /* make html variable with empty string */
+            tagsList.innerHTML = '';
+            /* get tags from data-tags attribute */
+            const articleDataTags = article.getAttribute('data-tags');
+            /* split tags into array */
+            const tagsArray = articleDataTags.split(' ');
+            console.log('example: ', tagsArray);
+            /* START LOOP: for each tag */
+            let html = '';
+            for (let tag of tagsArray) {
+                /* generate HTML of the link */
+                const tagHTML = '<li><a href="#">' + tag + '</a></li>';
+                /* add generated code to html variable */
+                html = html + ' ' + tagHTML;
+            /* END LOOP: for each tag */
+            }
+            /* insert HTML of all the links into the tags wrapper */
+            tagsList.innerHTML = html;
+        /* END LOOP: for every article: */
+        }
+    };
+
+    generateTags();
 
 }
