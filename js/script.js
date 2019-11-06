@@ -190,7 +190,7 @@
         for (let selectedAuthorLink of selectedAuthorLinks) {
             selectedAuthorLink.classList.add('active');
         }
-        generateTitleLinks('[data-author~="' + auth + '"]');
+        generateTitleLinks('[data-author="' + auth + '"]');
     };
 
     const addClickListenersToAuthors = function() {
