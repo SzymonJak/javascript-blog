@@ -34,6 +34,8 @@
         optTitleListSelector = '.titles',
         optArticleTagsSelector = '.post-tags .list',
         optArticleAuthorSelector = '.post-author';
+        // optCloudClassCount = 5,
+        // optCloudClassPrefix = 'tag-size-';
         // optTagsListSelector = '.tags.list';
 
     const generateTitleLinks = function (customSelector = '') {
@@ -68,6 +70,26 @@
     };
 
     generateTitleLinks();
+
+    const calculateTagsParams = function(tags) {
+        const params = {
+            min: 999999,
+            max: 0
+        };
+        for (let tag in tags) {
+            if (tags[tag] > params.max) {
+                params.max = tags[tag];
+            } else if (tags[tag] < params.min) {
+                params.min = tags[tag];
+            }
+            console.log(tag + ' is used ' + tags[tag] + ' times');
+        }
+        return params;
+    };
+
+    const calculateTagClass = function() {
+
+    };
 
     const generateTags = function() {
         /* create a new variable allTags with an empty object */
@@ -107,12 +129,14 @@
         /* find list of tags in right column */
         const tagList = document.querySelector('.tags');
         /* create variable for all links HTML code */
+        const tagsParams = calculateTagsParams(allTags);
+        console.log('tagsParams: ', tagsParams);
         let allTagsHTML = '';
 
         /* START LOOP: for each tag in allTags */
         for (let tag in allTags) {
             /* generate code of a link and add it to allTagsHTML */
-            allTagsHTML += '<li><a href="#">' + tag + '</a> (' + allTags[tag] + ')</li>';
+            allTagsHTML += '<li><a href="#" class="' + calculateTagClass(allTags[tag], tagsParams) + '">' + tag + '</a> (' + allTags[tag] + ')</li>';
             /* END LOOP: for each tag in allTags  */
         }
         /* add html from allTagsHTML to tagList */
@@ -140,7 +164,7 @@
         /* END LOOP: for each active tag link */
         }
         /* find all tag links with "href" attribute equal to the "href" constant */
-        const selectedTagLinks = document.querySelectorAll(href);
+        const selectedTagLinks = document.querySelectorAll('a[href="' + href + '"]');
         /* START LOOP: for each found tag link */
         for (let selectedTagLink of selectedTagLinks) {
             /* add class active */
@@ -186,7 +210,7 @@
         for (let activeAuthor of activeAuthors) {
             activeAuthor.classList.remove('active');
         }
-        const selectedAuthorLinks = document.querySelectorAll(href);
+        const selectedAuthorLinks = document.querySelectorAll('a[href="' + href + '"]');
         for (let selectedAuthorLink of selectedAuthorLinks) {
             selectedAuthorLink.classList.add('active');
         }
