@@ -77,6 +77,14 @@ body {
   font-weight: bold;
 }
 
+.list.tags li {
+  display: inline;
+}
+
+.list.tags li a {
+  text-decoration: none;
+}
+
 .list-horizontal li {
   display: inline-block;
 }
@@ -106,5 +114,30 @@ body {
 
 .post-tags p {
   margin: 0 10px 0 0;
+}
+
+.tag-size-1 {
+  font-size: calc(16px * 0.8);
+  color: black;
+}
+
+.tag-size-2 {
+  font-size: calc(16px * 1);
+  color: darkgray;
+}
+
+.tag-size-3 {
+  font-size: calc(16px * 1.2);
+  color: 0;
+}
+
+.tag-size-4 {
+  font-size: calc(16px * 1.4);
+  color: orange;
+}
+
+.tag-size-5 {
+  font-size: calc(16px * 1.6);
+  color: green;
 }
 /*# sourceMappingURL=style.css.map */

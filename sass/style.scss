@@ -83,6 +83,12 @@ body {
   .active {
     font-weight: bold;
   }
+  &.tags li {
+    display: inline;
+    a {
+      text-decoration: none;
+    }
+  }
 }
 
 .list-horizontal {
@@ -116,5 +122,28 @@ body {
   display: flex;
   p {
     margin: 0 10px 0 0;
+  }
+}
+
+.tag-size- {
+  &1 {
+    font-size: calc(16px * 0.8);
+    color: black;
+  }
+  &2{
+    font-size: calc(16px * 1);
+    color: darkgray;
+  }
+  &3{
+    font-size: calc(16px * 1.2);
+    color: blue($color: #000000);
+  }
+  &4{
+    font-size: calc(16px * 1.4);
+    color: orange;
+  }
+  &5{
+    font-size: calc(16px * 1.6);
+    color: green;
   }
 }

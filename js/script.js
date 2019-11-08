@@ -33,9 +33,9 @@
         optTitleSelector = '.post-title',
         optTitleListSelector = '.titles',
         optArticleTagsSelector = '.post-tags .list',
-        optArticleAuthorSelector = '.post-author';
-        // optCloudClassCount = 5,
-        // optCloudClassPrefix = 'tag-size-';
+        optArticleAuthorSelector = '.post-author',
+        optCloudClassCount = 5,
+        optCloudClassPrefix = 'tag-size-';
         // optTagsListSelector = '.tags.list';
 
     const generateTitleLinks = function (customSelector = '') {
@@ -74,7 +74,7 @@
     const calculateTagsParams = function(tags) {
         const params = {
             min: 999999,
-            max: 0
+            max:0
         };
         for (let tag in tags) {
             if (tags[tag] > params.max) {
@@ -87,8 +87,13 @@
         return params;
     };
 
-    const calculateTagClass = function() {
+    const calculateTagClass = function(count, params) {
+        const normalizedCount = count - params.min;
+        const normalizedMax = params.max - params.min;
+        const percentage = normalizedCount / normalizedMax;
+        const classNumber = Math.floor(percentage * (optCloudClassCount - 1) + 1);
 
+        return (optCloudClassPrefix + classNumber);
     };
 
     const generateTags = function() {
@@ -130,13 +135,12 @@
         const tagList = document.querySelector('.tags');
         /* create variable for all links HTML code */
         const tagsParams = calculateTagsParams(allTags);
-        console.log('tagsParams: ', tagsParams);
         let allTagsHTML = '';
 
         /* START LOOP: for each tag in allTags */
         for (let tag in allTags) {
             /* generate code of a link and add it to allTagsHTML */
-            allTagsHTML += '<li><a href="#" class="' + calculateTagClass(allTags[tag], tagsParams) + '">' + tag + '</a> (' + allTags[tag] + ')</li>';
+            allTagsHTML += '<li><a href="#tag-' + tag + '" class="' + calculateTagClass(allTags[tag], tagsParams) + '">' + tag + ' </a></li>';
             /* END LOOP: for each tag in allTags  */
         }
         /* add html from allTagsHTML to tagList */
@@ -184,19 +188,36 @@
             tagLink.addEventListener('click', tagClickHandler);
         /* END LOOP: for each link */
         }
+        const tagsCloudLinks = document.querySelectorAll('.list.tags a');
+        for (let tagsCloudLink of tagsCloudLinks) {
+            tagsCloudLink.addEventListener('click', tagClickHandler);
+        }
     };
       
     addClickListenersToTags();      
 
     const generateAuthors = function() {
+        let allAuthors = {};
+        let allAuthorsHTML = '';
         const articles = document.querySelectorAll(optArticleSelector);
+        const authorsList = document.querySelector('.list.authors');
+        // authorsList.innerHTML = '';
         for (let article of articles) {
             const postAuthor = article.querySelector(optArticleAuthorSelector);
             postAuthor.innerHTML = '';
             const authorData = article.getAttribute('data-author');
             const authorHTML = 'by <a href="#auth-' + authorData + '">' + authorData + '</a>';
+            if (!Object.prototype.hasOwnProperty.call(allAuthors, authorData)) {
+                allAuthors[authorData] = 1;
+            } else {
+                allAuthors[authorData]++;
+            }
             postAuthor.innerHTML = authorHTML;
         }
+        for (let author in allAuthors) {
+            allAuthorsHTML += '<li><a href="#auth-' + author + '">' + author + '</a> (' + allAuthors[author] + ')</li>';
+        }
+        authorsList.innerHTML = allAuthorsHTML;
     };
 
     generateAuthors();
@@ -221,6 +242,10 @@
         const authorLinks = document.querySelectorAll('.post-author a');
         for (let authorLink of authorLinks) {
             authorLink.addEventListener('click', authorClickHandler);
+        }
+        const authorsListLinks = document.querySelectorAll('.list.authors a');
+        for (let authorsListLink of authorsListLinks) {
+            authorsListLink.addEventListener('click', authorClickHandler);
         }
     };
 
