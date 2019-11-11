@@ -92,7 +92,6 @@
             } else if (tags[tag] < params.min) {
                 params.min = tags[tag];
             }
-            console.log(tag + ' is used ' + tags[tag] + ' times');
         }
         return params;
     };
@@ -238,7 +237,6 @@
             });
         }
         authorsList.innerHTML = templates.authorColumn(allAuthorsData);
-        console.log(allAuthorsData);
     };
 
     generateAuthors();
